@@ -11,7 +11,7 @@ if (!function_exists('gratavarUrl')) {
      *
      * @return string
      */
-    function gratavarUrl($email, $size = 60, $default = 'mm', $rating = 'g') {
+    function gravatarUrl($email, $size = 60, $default = 'mm', $rating = 'g') {
 
         return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($email))) . "?s={$size}&d={$default}&r={$rating}";
     }
@@ -59,6 +59,7 @@ function langURL($url = null) {
 
 /**
  * @param $route
+ * @param array $parameters
  * @return mixed
  */
 function langRoute($route, $parameters = array()) {
@@ -67,6 +68,7 @@ function langRoute($route, $parameters = array()) {
 }
 
 /**
+ *
  * @param $route
  * @return mixed
  */

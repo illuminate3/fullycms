@@ -5,7 +5,6 @@ use Fully\Repositories\Category\CategoryInterface;
 use Redirect;
 use View;
 use Input;
-use Notification;
 use Fully\Repositories\Category\CategoryRepository as Category;
 use Fully\Exceptions\Validation\ValidationException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -39,7 +38,7 @@ class CategoryController extends Controller {
         $perPage = 10;
         $pagiData = $this->category->paginate($page, $perPage, true);
 
-        $categories = new LengthAwarePaginator($pagiData->items, $pagiData->totalItems, $perPage, [
+        $categories = new LengthAwarePaginator($pagiData->items, $pagiData->totalItems, $perPage,Paginator::resolveCurrentPage(), [
             'path' => Paginator::resolveCurrentPath()
         ]);
 
@@ -68,7 +67,7 @@ class CategoryController extends Controller {
         try {
 
             $this->category->create(Input::all());
-            Notification::success('Category was successfully added');
+            Flash::message('Category was successfully added');
             return langRedirectRoute('admin.category.index');
         } catch (ValidationException $e) {
             return langRedirectRoute('admin.category.create')->withInput()->withErrors($e->getErrors());
@@ -109,7 +108,7 @@ class CategoryController extends Controller {
 
         try {
             $this->category->update($id, Input::all());
-            Notification::success('Category was successfully updated');
+            Flash::message('Category was successfully updated');
             return langRedirectRoute('admin.category.index');
         } catch (ValidationException $e) {
 
@@ -126,7 +125,7 @@ class CategoryController extends Controller {
     public function destroy($id) {
 
         $this->category->delete($id);
-        Notification::success('Category was successfully deleted');
+        Flash::message('Category was successfully deleted');
         return langRedirectRoute('admin.category.index');
     }
 

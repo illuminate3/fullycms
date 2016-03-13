@@ -4,12 +4,13 @@ use Fully\Http\Controllers\Controller;
 use Fully\Repositories\Video\VideoInterface;
 use Redirect;
 use VideoApi;
+use Config;
 use View;
 use Input;
 use Response;
+use Flash;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Notification;
 use Fully\Repositories\Video\VideoRepository as Video;
 use Fully\Exceptions\Validation\ValidationException;
 
@@ -18,11 +19,12 @@ use Fully\Exceptions\Validation\ValidationException;
  * @package App\Controllers\Admin
  * @author Sefa Karagöz
  */
-class VideoController extends Controller {
-
+class VideoController extends Controller
+{
     protected $video;
 
-    public function __construct(VideoInterface $video) {
+    public function __construct(VideoInterface $video)
+    {
 
         $this->video = $video;
     }
@@ -32,7 +34,8 @@ class VideoController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
 
         //$videos = $this->video->paginate();
 
@@ -40,7 +43,7 @@ class VideoController extends Controller {
         $perPage = 10;
         $pagiData = $this->video->paginate($page, $perPage, true, true);
 
-        $videos = new LengthAwarePaginator($pagiData->items, $pagiData->totalItems, $perPage, [
+        $videos = new LengthAwarePaginator($pagiData->items, $pagiData->totalItems, $perPage, Paginator::resolveCurrentPage(), [
             'path' => Paginator::resolveCurrentPath()
         ]);
 
@@ -54,7 +57,8 @@ class VideoController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
 
         return view('backend.video.create');
     }
@@ -64,13 +68,16 @@ class VideoController extends Controller {
      *
      * @return Response
      */
-    public function store() {
+    public function store()
+    {
 
-        try {
+        try
+        {
             $this->video->create(Input::all());
-            Notification::success('Video was successfully added');
+            Flash::message('Video was successfully added');
             return langRedirectRoute('admin.video.index');
-        } catch (ValidationException $e) {
+        } catch(ValidationException $e)
+        {
             return langRedirectRoute('admin.video.create')->withInput()->withErrors($e->getErrors());
         }
     }
@@ -81,7 +88,8 @@ class VideoController extends Controller {
      * @param int $id
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
 
         $video = $this->video->find($id);
         return view('backend.video.show', compact('video'));
@@ -93,7 +101,8 @@ class VideoController extends Controller {
      * @param int $id
      * @return Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
 
         $video = $this->video->find($id);
         return view('backend.video.edit', compact('video'));
@@ -105,13 +114,16 @@ class VideoController extends Controller {
      * @param int $id
      * @return Response
      */
-    public function update($id) {
+    public function update($id)
+    {
 
-        try {
+        try
+        {
             $this->video->update($id, Input::all());
-            Notification::success('Video was successfully updated');
+            Flash::message('Video was successfully updated');
             return langRedirectRoute('admin.video.index');
-        } catch (ValidationException $e) {
+        } catch(ValidationException $e)
+        {
 
             return langRedirectRoute('admin.video.edit')->withInput()->withErrors($e->getErrors());
         }
@@ -123,10 +135,11 @@ class VideoController extends Controller {
      * @param int $id
      * @return Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $this->video->delete($id);
-        Notification::success('Video was successfully deleted');
+        Flash::message('Video was successfully deleted');
         return langRedirectRoute('admin.video.index');
     }
 
@@ -134,18 +147,24 @@ class VideoController extends Controller {
      * @param $id
      * @return mixed
      */
-    public function confirmDestroy($id) {
+    public function confirmDestroy($id)
+    {
 
         $video = $this->video->find($id);
         return view('backend.video.confirm-destroy', compact('video'));
     }
 
-    public function getVideoDetail() {
+    public function getVideoDetail()
+    {
 
         $videoId = Input::get("video_id");
         $type = Input::get("type");
 
-        $response = VideoApi::setType($type)->getVideoDetail($videoId);
+        if($type == 'youtube')
+            $response = VideoApi::setType($type)->setKey(Config::get('fully.youtube_api_key'))->getVideoDetail($videoId);
+        else
+            $response = VideoApi::setType($type)->getVideoDetail($videoId);
+
         return Response::json($response);
     }
 }

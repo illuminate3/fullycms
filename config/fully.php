@@ -2,9 +2,11 @@
 
 return array(
 
-    'cache'    => true,
+    'cache'    => false,
 
     'per_page' => 10,
+
+    'youtube_api_key' => 'AIzaSyDAVKCgnt1-HxSJS-KTRVYlrnA5J3PU3bc',
 
     /*
     |--------------------------------------------------------------------------

@@ -7,7 +7,6 @@ use View;
 use Input;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Notification;
 use Fully\Repositories\Faq\FaqRepository as Faq;
 use Fully\Exceptions\Validation\ValidationException;
 
@@ -37,7 +36,7 @@ class FaqController extends Controller {
         $page = Input::get('page', 1);
         $perPage = 10;
         $pagiData = $this->faq->paginate($page, $perPage, true);
-        $faqs = new LengthAwarePaginator($pagiData->items, $pagiData->totalItems, $perPage, [
+        $faqs = new LengthAwarePaginator($pagiData->items, $pagiData->totalItems, $perPage,Paginator::resolveCurrentPage(), [
             'path' => Paginator::resolveCurrentPath()
         ]);
 
@@ -65,7 +64,7 @@ class FaqController extends Controller {
 
         try {
             $this->faq->create(Input::all());
-            Notification::success('Faq was successfully added');
+            Flash::message('Faq was successfully added');
             return langRedirectRoute('admin.faq.index');
         } catch (ValidationException $e) {
             return langRedirectRoute('admin.faq.create')->withInput()->withErrors($e->getErrors());
@@ -106,7 +105,7 @@ class FaqController extends Controller {
 
         try {
             $this->faq->update($id, Input::all());
-            Notification::success('Faq was successfully updated');
+            Flash::message('Faq was successfully updated');
             return langRedirectRoute('admin.faq.index');
         } catch (ValidationException $e) {
 
@@ -123,7 +122,7 @@ class FaqController extends Controller {
     public function destroy($id) {
 
         $this->faq->delete($id);
-        Notification::success('Faq was successfully deleted');
+        Flash::message('Faq was successfully deleted');
         return langRedirectRoute('admin.faq.index');
     }
 

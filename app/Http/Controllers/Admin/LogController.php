@@ -16,7 +16,7 @@ class LogController extends Controller {
 
     public function index() {
 
-        /*$level = Input::get('levels', 'all');
+        $level = Input::get('levels', 'all');
         $levels = array(
             'all'       => 'ALL',
             'debug'     => 'DEBUG',
@@ -32,11 +32,11 @@ class LogController extends Controller {
 
         $logs = LogViewer::getLogs($level);
 
-        $paginator = new LengthAwarePaginator($logs,count($logs), 25, [
+        $paginator = new LengthAwarePaginator($logs,count($logs), 25,Paginator::resolveCurrentPage(), [
             'path' => Paginator::resolveCurrentPath()
         ]);
-        */
 
-        return view('backend.log.index');
+
+        return view('backend.log.index', compact('paginator', 'levels', 'level'));
     }
 }

@@ -16,7 +16,8 @@
 </section>
 <br>
 <div class="container">
-    <div class="row"> {{ Notification::showAll() }}
+    <div class="col-lg-10">
+        @include('flash::message')
         <br>
 
         <div class="pull-left">
@@ -27,7 +28,7 @@
         <br>
         <br>
 
-        <div class="table-responsive">
+        <div class="">
             <table class="table table-striped">
                 <thead>
                 <tr>

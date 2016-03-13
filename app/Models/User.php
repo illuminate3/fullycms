@@ -1,9 +1,15 @@
-<?php namespace Fully\Models;
+<?php
+
+namespace Fully\Models;
+
+use Cartalyst\Sentinel\Users\EloquentUser;
 
 /**
  * Class User
- * @author Sefa Karagöz
+ * @package Fully\Models
+ * @author Sefa Karagöz <karagozsefa@gmail.com>
  */
-class User extends \Cartalyst\Sentry\Users\Eloquent\User {
+class User extends EloquentUser
+{
 
 }

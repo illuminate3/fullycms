@@ -1,32 +1,21 @@
 Fully CMS
 =============
 
-### Laravel 5 Content Managment System
-
-### just an example, needs further development!
+### Laravel 5.1 Content Managment System
 
 ## not stable!
-
-## Fully CMS Ver. 2.0.0
-##### Change log:
-* The title has been changed to "Fully CMS"
-* More functions
-* Better optimization
-* Laravel 5
 
 <img src="https://raw.githubusercontent.com/sseffa/fullycms/master/screenshots/1.png" width="900" />
 
 ## Features
 
-* Laravel 5
+* Laravel 5.1
 * Bootstrap
-* Authentication Sentry
+* Authentication Sentinel
 * Ckeditor
 * Bootstrap Code Prettify
 * File Manager
 * Dropzone.js
-* 404 for not found pages
-* Custom Error Pages
 * Backend
   * Manage menu (nested)
   * Manage article (category, tag)
@@ -35,7 +24,7 @@ Fully CMS
   * Manage page
   * Manage news
   * Manage photo gallery
-  * Ckeditor for post creation and editing (filemanager)
+  * CKEditor for post creation and editing (filemanager)
   * Form post manage
   * Site settings
   * Log view page
@@ -46,17 +35,6 @@ Fully CMS
   * Photo Gallery (Lazy load image, responsive fancybox)
   * Contact Form
   * Breadcrumbs
-  * Route cache
-
-## Todo
-
-* User (Cartalyst Sentry)
-  * Groups,
-  * Group Permissions,
-  * User Permissions,
-  * Login Throttling
-  * User Suspension
-  * User Banning
 
 ## Installation
 
@@ -66,10 +44,9 @@ Please check the system requirements before installing sf CMS.
   * Github: `git clone git@github.com:sseffa/fullycms.git`
   * Composer: `composer create-project sseffa/fullycms --prefer-dist`
 2. From a command line open in the folder, run `composer install`.
-3. Enter your database details into `app/config/database.php`.
-4. Run `php artisan app:install` to setup and seed your database.
-5. Default admin, email: admin@admin.com, password: admin
-6. Settings `app/config/fully.php`. (optional)
+3. Enter your database details into `config/database.php`.
+4. Run `php artisan app:install` to setup and seed your database and admin information
+5. Settings `config/fully.php`. (optional)
   * Cache enable / disable
   * image folder
   * post per page
